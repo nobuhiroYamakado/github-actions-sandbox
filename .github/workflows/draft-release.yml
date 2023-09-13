@@ -20,17 +20,19 @@ jobs:
         id: do-something-id
         shell: bash
         run: |
-          content=$(cat details-summary-example.md)
-          content="${content//\'/\\\'}"
+          content=`cat details-summary-example.md | tee gen-details-summary-example.md`
           content="${content//$'\n'/\\n}"
-          content="${content//$'\r'/\\r}"
-          echo "some_output=${content}" >> $GITHUB_OUTPUT
+          content="${content//\'/\\\'}"
+          echo "some_output=$content" >> $GITHUB_OUTPUT
           echo ${content}
+          echo $content
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ steps.do-something-id.outputs.some_output}}
+          tag_name: release-${{github.ref}}
           draft: true
           generate_release_notes: true
+          body_path: gen-details-summary-example.md
 
 
