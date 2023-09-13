@@ -31,17 +31,10 @@ jobs:
           echo $LATEST_TAG
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: generate change log
-        id: change_log
-        uses: mikepenz/release-changelog-builder-action@v3
-        with:
-          fromTag: ${{ steps.latest-release-tag.outputs.LATEST_TAG}}
-      - name: Create draft Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body: ${{steps.change_log.outputs.changelog}}
-          # body_path: gen-details-summary-example.md
-          draft: true
-          # generate_release_notes: true
+      - name: create draft release
+        shell: bash
+        run: |
+          gh auth status
+          cat gen-details-summary-example.md | gh release create ${{ github.ref_name }} --verify-tag --draft --generate-notes --notes-start-tag ${{ steps.latest-release-tag.outputs.LATEST_TAG }} --notes-file -
 
 
