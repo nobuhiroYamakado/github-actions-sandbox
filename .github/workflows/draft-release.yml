@@ -21,7 +21,11 @@ jobs:
         shell: bash
         run: |
           result=`cat details-summary-example.md`
-          echo "::set-output name=some_output::$result" 
+          {
+            echo "some_output<<EOF"
+            result
+            echo EOF
+          } >> $GITHUB_OUTPUT 
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
