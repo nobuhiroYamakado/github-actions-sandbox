@@ -20,7 +20,7 @@ jobs:
         id: do-something-id
         shell: bash
         run: |
-          result="${cat details-summary-example.md}"
+          result=`cat details-summary-example.md`
           echo "::set-output name=some_output::$result" 
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
