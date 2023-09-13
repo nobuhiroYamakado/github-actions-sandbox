@@ -26,6 +26,7 @@ jobs:
           echo "some_output=$content" >> $GITHUB_OUTPUT
           echo ${content}
           echo $content
+          cat gen-details-summary-example.md
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
@@ -33,6 +34,5 @@ jobs:
           tag_name: release-${{github.ref}}
           draft: true
           generate_release_notes: true
-          body_path: gen-details-summary-example.md
 
 
