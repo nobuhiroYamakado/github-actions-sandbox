@@ -26,6 +26,7 @@ jobs:
           echo "some_output=$content" >> $GITHUB_OUTPUT
           echo ${content}
           echo $content
+          cat gen-details-summary-example.md
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
