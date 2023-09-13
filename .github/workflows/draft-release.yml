@@ -21,17 +21,23 @@ jobs:
         shell: bash
         run: |
           content=`cat details-summary-example.md | tee gen-details-summary-example.md`
-          content="${content//$'\n'/\\n}"
-          content="${content//\'/\\\'}"
-          echo "some_output=$content" >> $GITHUB_OUTPUT
-          echo ${content}
-          echo $content
-          cat gen-details-summary-example.md
+      - name: get release tag
+        id: latest-release-tag
+        shell: bash
+        run: |
+          gh auth status
+          latest_tag=$(gh release list --limit 1 | awk '{print $1}')
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_OUTPUT
+      - name: generate change log
+        id: change_log
+        uses: mikepenz/release-changelog-builder-action@v3
+        with:
+          fromTag: ${{ steps.latest-release-tag.outputs.LATEST_TAG}}
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
-          body: ${{ steps.do-something-id.outputs.some_output}}
-          tag_name: release-${{github.ref}}
+          body: ${{steps.change_log.outputs.changelog}}
+          body_path: gen-details-summary-example.md
           draft: true
           generate_release_notes: true
 
