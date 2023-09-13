@@ -28,6 +28,8 @@ jobs:
           gh auth status
           latest_tag=$(gh release list --limit 1 | awk '{print $1}')
           echo "LATEST_TAG=$latest_tag" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: generate change log
         id: change_log
         uses: mikepenz/release-changelog-builder-action@v3
