@@ -22,8 +22,8 @@ jobs:
         run: |
           content=$(cat details-summary-example.md)
           content="${content//\'/\\\'}"
-          content="${content//$'\n'/'\\n'}"
-          content="${content//$'\r'/'\\r'}"
+          content="${content//$'\n'/\\n}"
+          content="${content//$'\r'/\\r}"
           echo "some_output=${content}" >> $GITHUB_OUTPUT
           echo ${content}
       - name: Create draft Release
