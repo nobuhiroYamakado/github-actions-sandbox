@@ -1,0 +1,32 @@
+name: "draft-release"
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v**
+
+permissions:
+  contents: write
+
+jobs:
+  draft-release:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Do Something
+        id: do-something-id
+        shell: bash
+        run: |
+          result="Hello, world!" # ここでの処理結果を次のステップで使用したいとします
+          echo "::set-output name=some_output::$result" 
+      - name: Create draft Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.do-something-id.outputs.some_output}}
+          draft: true
+          generate_release_notes: true
+
+
