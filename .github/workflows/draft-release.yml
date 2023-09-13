@@ -40,8 +40,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body: ${{steps.change_log.outputs.changelog}}
-          body_path: gen-details-summary-example.md
+          # body_path: gen-details-summary-example.md
           draft: true
-          generate_release_notes: true
+          # generate_release_notes: true
 
 
