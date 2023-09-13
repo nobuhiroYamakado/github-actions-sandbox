@@ -20,11 +20,11 @@ jobs:
         id: do-something-id
         shell: bash
         run: |
-          {
-            echo 'some_output<<EOF'
-            cat details-summary-example.md
-            echo EOF
-          } >> $GITHUB_OUTPUT 
+          content=$(cat details-summary-example.md)
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "some_output=content" >> $GITHUB_OUTPUT 
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
