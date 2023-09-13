@@ -21,14 +21,14 @@ jobs:
         shell: bash
         run: |
           content=`cat details-summary-example.md | tee gen-details-summary-example.md`
-      - name: get release tag
+
+      - name: get latest release tag
         id: latest-release-tag
         shell: bash
         run: |
           gh auth status
           latest_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 | awk '{print $1}')
           echo "LATEST_TAG=$latest_tag" >> $GITHUB_OUTPUT
-          echo $LATEST_TAG
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: create draft release
@@ -36,5 +36,5 @@ jobs:
         run: |
           gh auth status
           cat gen-details-summary-example.md | gh release create ${{ github.ref_name }} --verify-tag --draft --generate-notes --notes-start-tag ${{ steps.latest-release-tag.outputs.LATEST_TAG }} --notes-file -
-
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
