@@ -20,10 +20,9 @@ jobs:
         id: do-something-id
         shell: bash
         run: |
-          result=`cat details-summary-example.md`
           {
-            echo "some_output<<EOF"
-            result
+            echo 'some_output<<EOF'
+            cat details-summary-example.md
             echo EOF
           } >> $GITHUB_OUTPUT 
       - name: Create draft Release
