@@ -21,10 +21,11 @@ jobs:
         shell: bash
         run: |
           content=$(cat details-summary-example.md)
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          echo "some_output=${content}" >> $GITHUB_OUTPUT 
+          content="${content//\'/\\\'}"
+          content="${content//$'\n'/'\\n'}"
+          content="${content//$'\r'/'\\r'}"
+          echo "some_output=${content}" >> $GITHUB_OUTPUT
+          echo ${content}
       - name: Create draft Release
         uses: softprops/action-gh-release@v1
         with:
